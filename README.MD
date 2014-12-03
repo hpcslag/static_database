@@ -1,0 +1,1 @@
+自動環境部屬static database，以及使用指令修改條目
