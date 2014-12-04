@@ -1,6 +1,6 @@
 #### Static Database
 
-this static db is referencr MongoDB, and it look like MongoDB!, This DB File is hashcode (Json Type)
+this static db is reference MongoDB, and it look like MongoDB!, This DB File is hashcode (Json Type)
 
 Using Database.js to use!
 
