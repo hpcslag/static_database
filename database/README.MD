@@ -15,7 +15,7 @@ Using Database.js to use!
 
 ````javascript
 new StaticDB('DB Name','Collection Name',function(met){
-				//if DB, Colle are not yet on record, it will create new for you!
+	//if DB, Colle are not yet on record, it will create new for you!
 });
 ````
 
@@ -23,7 +23,7 @@ new StaticDB('DB Name','Collection Name',function(met){
 
 ````javascript
 new StaticDB('DB Name','Collection Name',function(met){
-				met.insert({name:"Mac"});
+	met.insert({name:"Mac"});
 });
 ````
 
