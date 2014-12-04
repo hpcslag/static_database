@@ -9,3 +9,26 @@ Using Database.js to use!
  	* Collection(Collections Files)
  		* Collection_name
 
+#API Use
+
+####setup
+
+````javascript
+new StaticDB('DB Name','Collection Name',function(met){
+				//if DB, Colle are not yet on record, it will create new for you!
+});
+````
+
+####callback
+
+````javascript
+new StaticDB('DB Name','Collection Name',function(met){
+				met.insert({name:"Mac"});
+});
+````
+
+####insert([object])
+
+````javascript
+met.insert({name:"Mac"});
+````
