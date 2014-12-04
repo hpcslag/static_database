@@ -13,17 +13,15 @@ function Method(){}
 
 Method.prototype.find = function(keyword){
     var rs = fs.createReadStream('./DB/Blog/Collections/post.json');
-    
     rs.on('data',function(data){
-       // var log = JSON.parse(data);
-        console.log(data);
-    });
-    
-    rs.on('end',function(data){
-        console.log(data);
+        var log = JSON.parse(data.toString());
+        log[Object.keys(log).length] = keyword;
+        var ws = fs.createWriteStream('./DB/Blog/Collections/post.json');
+        ws.write(JSON.stringify(log));
+        ws.end();
     });
 };
 
 var Met = new Method();
 
-Met.find(11);
+Met.find({"name":"sdsd"});
