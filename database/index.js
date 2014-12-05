@@ -48,14 +48,19 @@ Method.prototype.drop = function(options){
     if(!!options && (typeof options === "object" || "string")){
         console.log("Reference options");
     }else{
-        //TO DO Delete All Database File
-        fs.unlinkSync(relpath,function(err){
-            if(err){
-                conosle.log("Drop Fail!");
+        fs.exists(relpath,function(exists){
+            if(!exists){
+                console.log("not file");
             }else{
-                console.log(true);
+                fs.unlinkSync(relpath,function(err){
+                    if(err){
+                        conosle.log("Drop Fail!");
+                    }else{
+                        console.log(true);
+                    }
+                });
             }
-        });
+        });   
     }
 };
 
