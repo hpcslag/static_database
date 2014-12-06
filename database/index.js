@@ -4,6 +4,13 @@ var fs = require('fs'),
     Colle = 'post',
     relpath = path.join(__dirname,'/DB/',DB,'/Collections/',Colle+'.json');
 
+/**
+* Setup Select Database file
+* 
+* @param {string}DB - DB name
+* @param {string}Colle - Collection name
+* @param {function} Callback - all method
+*/
 function StaticDB(DB, Colle, Callback){
     this.DB += DB;
     this.Colle += Colle;
@@ -14,6 +21,11 @@ function StaticDB(DB, Colle, Callback){
 
 function Method(){}
 
+/**
+* insert new data, replace save function!
+* 
+* @param {object}keyword
+*/
 Method.prototype.insert = function(keyword){
     fs.exists(relpath,function(exists){
         if(!exists){
@@ -35,27 +47,84 @@ Method.prototype.insert = function(keyword){
     });
 };
 
+/**
+* findAll data
+* 
+* @param {function}callback (data)
+*/
 Method.prototype.findAll = function(callback){
+        fs.exists(relpath,function(exists){
+            if(!exists){
+                console.log("undefined");
+                return "undefined";
+            }else{
+                var rs = fs.createReadStream(relpath);
+                //if none, create noe, fs.exitis
+                rs.on('data',function(data){
+                    var log = JSON.parse(data.toString());
+                    callback(log);
+                });
+            }
+        });
+};
+
+/**
+* findOne data
+* 
+* @param {object}object
+* @param {function}callback
+*/
+Method.prototype.findOne = function(object,callback){
+    //TODO traversal All Object and foreach list than index!
     fs.exists(relpath,function(exists){
-        if(!exists){
-            return "find not thing";
-        }else{
-            var rs = fs.createReadStream(relpath);
-            //if none, create noe, fs.exitis
-            rs.on('data',function(data){
-                var log = JSON.parse(data.toString());
-                callback(log);
-            });
-        }
+            if(!exists){
+                console.log("undefined");
+                return "undefined";
+            }else{
+                var rs = fs.createReadStream(relpath);
+                //if none, create noe, fs.exitis
+                rs.on('data',function(data){
+                    var log = JSON.parse(data.toString());
+                    for(var i = 0;i<Object.keys(log).length;i++){
+                        if((Object.keys(log[i])[0] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[0].toString()] == object[Object.keys(object)])){
+                            callback(log[i]);
+                            break;
+                        }
+                    }
+                });
+            }
     });
 };
 
-Method.prototype.findOne = function(){};
 
-Method.prototype.remove = function(){};
+/**
+* remove data
+* 
+* @param {object}object
+* @param {function}callback
+*/
+Method.prototype.remove = function(object,callback){
+    //TODO forloop find object and remove specified object
+};
 
-Method.prototype.update = function(){};
+/**
+* update data
+* 
+* @param {object}data
+* @param {object}update
+*/
+Method.prototype.update = function(data,update){
+    //TODO forloop find index data and change up-to-date 
+};
 
+
+/**
+* Drop the data
+* 
+* @param {object}optinos
+* 
+* !! This options is experimental features.
+*/
 Method.prototype.drop = function(options){
     var op = options || null;
     if(!!options && (typeof options === "object" || "string")){
@@ -67,7 +136,7 @@ Method.prototype.drop = function(options){
             }else{
                 fs.unlinkSync(relpath,function(err){
                     if(err){
-                        conosle.log("Drop Fail!");
+                        console.log("Drop Fail!");
                     }else{
                         console.log(true);
                     }
