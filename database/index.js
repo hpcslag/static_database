@@ -82,7 +82,6 @@ Method.prototype.findOne = function(object,callback){
                 return "undefined";
             }else{
                 var rs = fs.createReadStream(relpath);
-                //if none, create noe, fs.exitis
                 rs.on('data',function(data){
                     var log = JSON.parse(data.toString());
                     for(var i = 0;i<Object.keys(log).length;i++){
@@ -101,10 +100,38 @@ Method.prototype.findOne = function(object,callback){
 * remove data
 * 
 * @param {object}object
-* @param {function}callback
 */
-Method.prototype.remove = function(object,callback){
+Method.prototype.remove = function(object){
     //TODO forloop find object and remove specified object
+    fs.exists(relpath,function(exists){
+        if(!exists){
+            console.log("undefined");
+            return "undefined";
+        }else{
+            var rs = fs.createReadStream(relpath);
+                rs.on('data',function(data){
+                    var log = JSON.parse(data.toString());
+                    for(var i = 0;i<Object.keys(log).length;i++){
+                        if((Object.keys(log[i])[0] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[0].toString()] == object[Object.keys(object)])){
+                            delete log[i];
+                            var newobj = {};
+                            var count = 0;
+                            for(var i in log){
+                                newobj[count] = log[i]
+                                count ++;
+                            };
+                            var ws = fs.createWriteStream(relpath);
+                            ws.write(JSON.stringify(newobj));
+                            ws.end();
+                            return object + " is be removed";
+                        }else{
+                            console.log("undefined");
+                            return "undefined";
+                        }
+                    }
+                });
+        }
+    });
 };
 
 /**
