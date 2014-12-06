@@ -137,11 +137,38 @@ Method.prototype.remove = function(object){
 /**
 * update data
 * 
-* @param {object}data
+* @param {object}object
 * @param {object}update
 */
-Method.prototype.update = function(data,update){
+Method.prototype.update = function(object,update){
     //TODO forloop find index data and change up-to-date 
+    fs.exists(relpath,function(exists){
+            if(!exists){
+                console.log("undefined");
+                return "undefined";
+            }else{
+                var rs = fs.createReadStream(relpath);
+                rs.on('data',function(data){
+                    var log = JSON.parse(data.toString());
+                    for(var i = 0;i<Object.keys(log).length;i++){
+                        if((Object.keys(log[i])[0] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[0].toString()] == object[Object.keys(object)])){
+                            if(typeof update === "object"){
+                                log[i] = update;
+                                var ws = fs.createWriteStream(relpath);
+                                ws.write(JSON.stringify(log));
+                                ws.end();
+                                return "database everything up-to-date";
+                            }
+                            else{
+                                console.log("update is not the object, can't update!")
+                            }
+                            break;
+                        }
+                    }
+                    console.log("undefined");
+                });
+            }
+    });
 };
 
 
