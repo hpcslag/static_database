@@ -15,10 +15,18 @@ function StaticDB(DB, Colle, Callback){
     this.DB += DB;
     this.Colle += Colle;
     
-
-    var met = new Method();
-    Callback(met);
+    if(!!Callback){
+        var met = new Method();
+        Callback(met);
+    }
 }
+
+/**
+* Bind StaticDB Function
+*/
+
+StaticDB.prototype = new Method();
+
 
 function Method(){}
 

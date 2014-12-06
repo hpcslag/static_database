@@ -23,7 +23,7 @@ $ statucdb -n "Your Database Name"
 $ staticdb -n "Your Database Name"
 ````
 
-#API Use
+#API Use Callback
 
 ####setup([Database name],[Collection name], callback)
 
@@ -34,7 +34,7 @@ new StaticDB('DB Name','Collection Name',function(met){
 });
 ````
 
-####First use demo (insert data)
+####First use demo example/sample (insert data)
 
 ````javascript
 new StaticDB('DB Name','Collection Name',function(met){
@@ -42,7 +42,15 @@ new StaticDB('DB Name','Collection Name',function(met){
 });
 ````
 
-####insert([object])
+#### Setup another way
+if you don't like callback hell! use that way
+````javascript
+var staticdb = require('staticdb');
+var app = new staticdb('Blog','post');
+app.insert()... //lookup API
+````
+
+##insert([object])
 
 insert is replace save() , so insert same save feature!
 just new data in the database!
@@ -51,31 +59,31 @@ just new data in the database!
 met.insert({name:"Mac"});
 ````
 
-####drop()
+##drop()
 This is experimental features. be careful bug.  this feature is delete all data collection!, if you drop! just gone!
 ````javascript
 met.drop();
 ````
 
-####remove([object])
+##remove([object])
 remove something!
 ````javascript
 met.remove({name:"eric"});
 ````
 
-####update([object],[update])
+##update([object],[update])
 change find index data to your update object!. the update parameter must be object type!
 ````javascript
 met.update({"name":"eric"},{name:"ohmygod"});
 ````
 
-####findAll([callback])
+##findAll([callback])
 find all in collection!
 ````javascript
 met.findAll(function(data){ console.log(data) });
 ````
 
-####findOne([object],[callback])
+##findOne([object],[callback])
 find the object in collection
 ````javascript
 met.findOne({name:'mac'},function(data){ console.log(data) });
