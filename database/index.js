@@ -35,7 +35,20 @@ Method.prototype.insert = function(keyword){
     });
 };
 
-Method.prototype.find = function(){};
+Method.prototype.findAll = function(callback){
+    fs.exists(relpath,function(exists){
+        if(!exists){
+            return "find not thing";
+        }else{
+            var rs = fs.createReadStream(relpath);
+            //if none, create noe, fs.exitis
+            rs.on('data',function(data){
+                var log = JSON.parse(data.toString());
+                callback(log);
+            });
+        }
+    });
+};
 
 Method.prototype.findOne = function(){};
 
