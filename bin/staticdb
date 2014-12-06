@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var path = require('path'),
+    fs = require('fs'),
+	UserPath = process.cwd(),
+	cli_argv = process.argv.slice(2); //args.shift()
+
+switch(cli_argv[0]){
+	case '-n':
+		var project_name = process.argv.slice(2)[1] || null;
+		init_db(project_name);
+		break;
+	case 'reset':
+	    break;
+	default:
+	    console.log("Static Database \n\nEngilsh\n    Setup\n      -n [Database name] -- Setup database initialization");
+}
+
+function init_db(parameter){
+    if(parameter == null){
+        console.log("Pleace Enter Current DB name!");
+        process.exit();
+    }else{
+        fs.mkdir(path.join(__dirname,'../database/DB'));
+        fs.mkdir(path.join(__dirname,'../database/DB',parameter));
+        fs.mkdir(path.join(__dirname,'../database/DB',parameter,'/Collections/'))
+    }
+}

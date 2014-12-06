@@ -1,0 +1,28 @@
+{
+  "name": "staticdb",
+  "description": "Fast,simple static json database.",
+  "version": "0.0.1",
+  "preferGlobal": "true",
+  "bin": {
+      "staticdb": "./bin/staticdb"
+   },
+  "author": "MacTaylor <cslag@hotmail.com.tw>",
+  "keywords": [
+    "database",
+    "static",
+    "files manager"
+  ],
+  "dependencies": {
+   "colors":">=1.0.3"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hpcslag/static_database.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hpcslag/static_database/issues"
+  }
+}

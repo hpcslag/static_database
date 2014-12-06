@@ -1,4 +1,4 @@
-#### Static Database
+## Static Database
 
 this static db is reference MongoDB, and it look like MongoDB!, This DB File is hashcode (Json Type)
 
@@ -8,6 +8,20 @@ Using Database.js to use!
  * DB_name
  	* Collection(Collections Files)
  		* Collection_name
+
+##Install
+````shell
+$ npm install staticdb -g
+$ statucdb -n "Your Database Name"
+````
+
+#Command Line Setup
+
+#### first setup your Database
+!!!! You need to set before using, otherwise it will fail. !!!!
+````Bash
+$ staticdb -n "Your Database Name"
+````
 
 #API Use
 

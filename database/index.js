@@ -15,6 +15,7 @@ function StaticDB(DB, Colle, Callback){
     this.DB += DB;
     this.Colle += Colle;
     
+
     var met = new Method();
     Callback(met);
 }
