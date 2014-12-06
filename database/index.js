@@ -199,14 +199,4 @@ Method.prototype.drop = function(options){
         });   
     }
 };
-
-//var Met = new Method();
-/*new StaticDB('Blog','post',function(met){
-    met.insert({name:"999"});
-    //met.drop();
-});*/
-//Met.drop("");
-
-//Met.find({"name":"sdsd"});
-
 module.exports = StaticDB;
