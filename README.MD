@@ -12,7 +12,7 @@ Using Database.js to use!
 ##Install
 ````shell
 $ npm install staticdb -g
-$ statucdb -n "Your Database Name"
+$ staticdb -n "Your Database Name"
 ````
 
 #Command Line Setup
