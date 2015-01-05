@@ -1,7 +1,7 @@
 var fs = require('fs'),
     path = require('path'),
-    DB = 'Blog',
-    Colle = 'post',
+    DB = '',
+    Colle = '',
     relpath = path.join(__dirname,'/DB/',DB,'/Collections/',Colle+'.json');
 
 /**
@@ -14,7 +14,7 @@ var fs = require('fs'),
 function StaticDB(DB, Colle, Callback){
     this.DB += DB;
     this.Colle += Colle;
-    
+    relpath = path.join(__dirname,'/DB/',DB,'/Collections/',Colle+'.json');
     if(!!Callback){
         var met = new Method();
         Callback(met);
