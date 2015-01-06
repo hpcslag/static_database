@@ -94,9 +94,11 @@ Method.prototype.findOne = function(object,callback){
                 rs.on('data',function(data){
                     var log = JSON.parse(data.toString());
                     for(var i = 0;i<Object.keys(log).length;i++){
-                        if((Object.keys(log[i])[0] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[0].toString()] == object[Object.keys(object)])){
-                            callback(log[i]);
-                            break;
+                        for(var j = 0;j<(log[i])[Object.keys(log[i])[j].toString()].length;j++){
+                            if((Object.keys(log[i])[j] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[j].toString()] == object[Object.keys(object)])){
+                                callback(log[i]);
+                                break;
+                            }
                         }
                     }
                 });
