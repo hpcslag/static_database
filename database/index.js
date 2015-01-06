@@ -97,10 +97,13 @@ Method.prototype.findOne = function(object,callback){
                         for(var j = 0;j<(log[i])[Object.keys(log[i])[j].toString()].length;j++){
                             if((Object.keys(log[i])[j] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[j].toString()] == object[Object.keys(object)])){
                                 callback(log[i]);
+                                return true;
                                 break;
                             }
                         }
                     }
+                    callback(false);
+                    return false;
                 });
             }
     });
