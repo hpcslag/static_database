@@ -94,7 +94,7 @@ Method.prototype.findOne = function(object,callback){
                 rs.on('data',function(data){
                     var log = JSON.parse(data.toString());
                     for(var i = 0;i<Object.keys(log).length;i++){
-                        for(var j = 0;j<(log[i])[Object.keys(log[i])[j].toString()].length;j++){
+                        for(var j = 0;j<Object.keys(log[i]).length;j++){
                             if((Object.keys(log[i])[j] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[j].toString()] == object[Object.keys(object)])){
                                 callback(log[i]);
                                 return true;
