@@ -3,7 +3,7 @@ var fs = require('fs'),
     DB = '',
     Colle = '',
     relpath = path.join(__dirname,'/DB/',DB,'/Collections/',Colle+'.json');
-
+//sd('fcstu','users').findOne()
 /**
 * Setup Select Database file
 * 
@@ -12,13 +12,23 @@ var fs = require('fs'),
 * @param {function} Callback - all method
 */
 function StaticDB(DB, Colle, Callback){
-    this.DB += DB;
-    this.Colle += Colle;
+    //this.DB += DB;
+    //this.Colle += Colle;
     relpath = path.join(__dirname,'/DB/',DB,'/Collections/',Colle+'.json');
     if(!!Callback){
         var met = new Method();
         Callback(met);
     }
+    var method = new Method();
+    console.log(relpath);
+    return {
+        insert:function(keyword){method.insert(keyword,relpath)},
+        findAll:function(callback){method.findAll(relpath,callback);},
+        findOne:function(object,callback){method.findOne(object,relpath,callback)},
+        remove:function(object){method.remove(object,relpath)},
+        update:function(object,update){method.update(object,update,relpath)},
+        drop:function(options){method.drop(options,relpath)}
+    };
 }
 
 /**
@@ -35,7 +45,7 @@ function Method(){}
 * 
 * @param {object}keyword
 */
-Method.prototype.insert = function(keyword){
+Method.prototype.insert = function(keyword,relpath){
     fs.exists(relpath,function(exists){
         if(!exists){
            if(typeof keyword != "object")
@@ -61,7 +71,7 @@ Method.prototype.insert = function(keyword){
 * 
 * @param {function}callback (data)
 */
-Method.prototype.findAll = function(callback){
+Method.prototype.findAll = function(relpath,callback){
         fs.exists(relpath,function(exists){
             if(!exists){
                 console.log("undefined");
@@ -83,14 +93,11 @@ Method.prototype.findAll = function(callback){
 * @param {object}object
 * @param {function}callback
 */
-Method.prototype.findOne = function(object,callback){
+Method.prototype.findOne = function(object,relpath,callback){
     //TODO traversal All Object and foreach list than index!
-    fs.exists(relpath,function(exists){
-            if(!exists){
-                console.log("undefined");
-                return "undefined";
-            }else{
-                var rs = fs.createReadStream(relpath);
+    var exists = fs.existsSync(relpath);
+    if(exists){
+        var rs = fs.createReadStream(relpath);
                 rs.on('data',function(data){
                     var log = JSON.parse(data.toString());
                     for(var i = 0;i<Object.keys(log).length;i++){
@@ -105,8 +112,32 @@ Method.prototype.findOne = function(object,callback){
                     callback(false);
                     return false;
                 });
+    }else{
+        console.log("undefined");
+        return "undefined";
+    }
+    /*fs.exists(relpath,function(exists){
+            if(!exists){
+                console.log("undefined");
+                return "undefined";
+            }else{
+                var rs = fs.createReadStream(relpath);
+                rs.on('data',function(data){
+                    var log = JSON.parse(data.toString());
+                    for(var i = 0;i<Object.keys(log).length;i++){
+                        for(var j = 0;j<(log[i])[Object.keys(log[i])[j].toString()].length;j++){
+                            if((Object.keys(log[i])[j] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[j].toString()] == object[Object.keys(object)])){
+                                callback(log[i]);
+                                return true;
+                                break;
+                            }
+                        }
+                    }
+                    callback(false);
+                    return false;
+                });
             }
-    });
+    });*/
 };
 
 
@@ -115,7 +146,7 @@ Method.prototype.findOne = function(object,callback){
 * 
 * @param {object}object
 */
-Method.prototype.remove = function(object){
+Method.prototype.remove = function(object,relpath){
     //TODO forloop find object and remove specified object
     fs.exists(relpath,function(exists){
         if(!exists){
@@ -154,7 +185,7 @@ Method.prototype.remove = function(object){
 * @param {object}object
 * @param {object}update
 */
-Method.prototype.update = function(object,update){
+Method.prototype.update = function(object,update,relpath){
     //TODO forloop find index data and change up-to-date 
     fs.exists(relpath,function(exists){
             if(!exists){
@@ -193,7 +224,7 @@ Method.prototype.update = function(object,update){
 * 
 * !! This options is experimental features.
 */
-Method.prototype.drop = function(options){
+Method.prototype.drop = function(options,relpath){
     var op = options || null;
     if(!!options && (typeof options === "object" || "string")){
         console.log("Reference options");
@@ -213,4 +244,5 @@ Method.prototype.drop = function(options){
         });   
     }
 };
+
 module.exports = StaticDB;
