@@ -198,7 +198,8 @@ Method.prototype.update = function(object,update,relpath){
                     for(var i = 0;i<Object.keys(log).length;i++){
                         if((Object.keys(log[i])[0] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[0].toString()] == object[Object.keys(object)])){
                             if(typeof update === "object"){
-                                log[i] = update;
+                                var keys = Object.keys(update)[0];
+                                log[i][keys] = update[keys];
                                 var ws = fs.createWriteStream(relpath);
                                 ws.write(JSON.stringify(log));
                                 ws.end();
