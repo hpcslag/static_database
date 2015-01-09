@@ -196,19 +196,16 @@ Method.prototype.update = function(object,update,relpath){
                 rs.on('data',function(data){
                     var log = JSON.parse(data.toString());
                     for(var i = 0;i<Object.keys(log).length;i++){
-                        if((Object.keys(log[i])[0] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[0].toString()] == object[Object.keys(object)])){
-                            if(typeof update === "object"){
+                        for(var j = 0;j<Object.keys(log[i]).length;j++){
+                            if((Object.keys(log[i])[j] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[j].toString()] == object[Object.keys(object)])){
                                 var keys = Object.keys(update)[0];
                                 log[i][keys] = update[keys];
                                 var ws = fs.createWriteStream(relpath);
                                 ws.write(JSON.stringify(log));
                                 ws.end();
-                                return "database everything up-to-date";
+                                return true;
+                                break;
                             }
-                            else{
-                                console.log("update is not the object, can't update!")
-                            }
-                            break;
                         }
                     }
                     console.log("undefined");
