@@ -20,16 +20,16 @@ function StaticDB(DB, Colle, Callback){
         Callback(met);
     }
     var method = new Method();
-    console.log(relpath);
     return {
         insert:function(keyword){method.insert(keyword,relpath)},
         findAll:function(callback){method.findAll(relpath,callback);},
         findOne:function(object,callback){method.findOne(object,relpath,callback)},
         remove:function(object){method.remove(object,relpath)},
         update:function(object,update){method.update(object,update,relpath)},
-        drop:function(options){method.drop(options,relpath)}
+        drop:function(options){method.drop(options,relpath)},
+        override:function(object,update){method.override(object,update,relpath)}
+        }
     };
-}
 
 /**
 * Bind StaticDB Function
@@ -75,6 +75,7 @@ Method.prototype.findAll = function(relpath,callback){
         fs.exists(relpath,function(exists){
             if(!exists){
                 console.log("undefined");
+                callback(false);
                 return "undefined";
             }else{
                 var rs = fs.createReadStream(relpath);
@@ -214,7 +215,6 @@ Method.prototype.update = function(object,update,relpath){
     });
 };
 
-
 /**
 * Drop the data
 * 
@@ -242,5 +242,38 @@ Method.prototype.drop = function(options,relpath){
         });   
     }
 };
-
+/*
+ * Override
+ * findObject and Override all
+*/
+Method.prototype.override = function(object,update,relpath){
+    //TODO traversal All Object and foreach list than index!
+    var exists = fs.existsSync(relpath);
+    if(exists){
+        var rs = fs.createReadStream(relpath);
+                rs.on('data',function(data){
+                    var log = JSON.parse(data.toString());
+                    for(var i = 0;i<Object.keys(log).length;i++){
+                        for(var j = 0;j<Object.keys(log[i]).length;j++){
+                            if((Object.keys(log[i])[j] == Object.keys(object)[0]) && ((log[i])[Object.keys(log[i])[j].toString()] == object[Object.keys(object)])){
+                                log[i] = update;
+                                console.log(log[i]);
+                                var ws = fs.createWriteStream(relpath);
+                                ws.write(JSON.stringify(log));
+                                ws.end();
+                                return true;
+                                break;
+                                return true;
+                                break;
+                            }
+                        }
+                    }
+                    callback(false);
+                    return false;
+                });
+    }else{
+        console.log("undefined");
+        return "undefined";
+    }
+};
 module.exports = StaticDB;
